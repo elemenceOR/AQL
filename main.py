@@ -166,7 +166,7 @@ def function_60_seconds(squeue):
 
 
 def function_10_seconds(squeue):
-    temp, hum = queue.get()
+    temp, hum = squeue.get()
     bt = deque(temp, maxlen=100)
     tc = [(x - 32) * 5 / 92 for x in bt]
     bh = deque(hum, maxlen=100)
