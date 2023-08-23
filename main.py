@@ -7,6 +7,9 @@ from matplotlib import pyplot as plt
 import numpy as np
 from time import sleep
 import threading
+import queue
+
+squeue = queue.Queue()
 
 # AQI database
 CHANNEL_ID_SEND = '2233058'
@@ -145,7 +148,7 @@ def aql_calc(mean2, mean3):
     channel.update({'field1': aqi_2_5, 'field2': aqi_10, 'field3': max_aqi})
 
 
-def function_60_seconds():
+def function_60_seconds(squeue):
     while True:
         a, b, c, d, e, f, g = get_from_cloud()
 
@@ -158,12 +161,12 @@ def function_60_seconds():
         # g = data_field_3 (aqi10.0)
 
         aql_calc(a, b)
-
+        squeue.put((c, d))
         sleep(60)
-        return c, d
 
 
-def function_10_seconds(temp, hum):
+def function_10_seconds(squeue):
+    temp, hum = queue.get()
     bt = deque(temp, maxlen=100)
     tc = [(x - 32) * 5 / 92 for x in bt]
     bh = deque(hum, maxlen=100)
@@ -174,9 +177,9 @@ def function_10_seconds(temp, hum):
 
 # main run
 
-thread_60_seconds = threading.Thread(target=function_60_seconds)
-thread_10_seconds = threading.Thread(target=function_10_seconds)
+thread_60_seconds = threading.Thread(target=function_60_seconds, args=(squeue,))
+thread_10_seconds = threading.Thread(target=function_10_seconds, args=(squeue,))
 
-t, h = thread_60_seconds.start()
-thread_10_seconds.start(t, h)
+thread_60_seconds.start()
+thread_10_seconds.start()
 
