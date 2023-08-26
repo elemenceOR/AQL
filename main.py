@@ -150,16 +150,13 @@ def aql_calc(mean2, mean3):
 
 def function_60_seconds(squeue):
     while True:
-        a, b, c, d, e, f, g = get_from_cloud()
+        a, b, c, d= get_from_cloud()
 
         # a = mean2 (mean of aqi2.5)
         # b = mean3 (mean of aqi10.0)
         # c = data_field_6 (Temperature)
         # d = data_field_7 (Humidity)
-        # e = data_field_1 (aqi1.0)
-        # f = data_field_2 (aqi2.5)
-        # g = data_field_3 (aqi10.0)
-
+        
         aql_calc(a, b)
         squeue.put((c, d))
         sleep(60)
