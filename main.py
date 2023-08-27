@@ -79,7 +79,7 @@ def get_from_cloud():
     plt.subplots_adjust(wspace=0.5, hspace=1)
     plt.show()
 
-    return mean2, mean3, data_field_6, data_field_7, data_field_1, data_field_2, data_field_3
+    return mean2, mean3, data_field_6, data_field_7
 
 
 # function for collecting local temperature and humidity
