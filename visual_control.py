@@ -23,7 +23,7 @@ display = SevenSegment.SevenSegment(address=ADDRESS)
 # data_field_1 (aqi1.0)
 # data_field_2 (aqi2.5)
 # data_field_3 (aqi10.0)
-# need a method to get these arraz from the get_from_cloud() function ?
+# need a method to get these arrays from the get_from_cloud() function ?
 measurements = [data_field_1, data_field_2, data_field_3, temp_buffer, hum_buffer]
 total_measurements = len(measurements)
 
